@@ -1,0 +1,374 @@
+Rarity: Gem
+Explosive Arrow
+--------
+Fire, Attack, AoE, Duration, Bow
+Level: 20 (Max)
+Mana Cost: 27
+Critical Strike Chance: 6.00%
+Quality: +20% (augmented)
+--------
+Requirements:
+Level: 70
+Dex: 155
+--------
+Base duration is 1.00 seconds
+20% chance to Ignite enemies
+Explosion deals 586-879 Base Fire damage per Fuse Charge
++2 to Explosion Radius per Fuse Charge
+--------
+Place into an item socket of the right colour to gain this skill. Right click to remove from a socket.
+--------
+Corrupted
+--------
+Note: ~b/o 15 chaos
+
+
+
+
+
+Rarity: Normal
+Plateau Map
+--------
+Map Tier: 10
+--------
+Item Level: 78
+--------
+Travel to this Map by using it in the Eternal Laboratory or a personal Map Device. Maps can only be used once.
+--------
+Note: ~b/o 6 chaos
+ 
+
+
+
+
+Rarity: Rare
+Damnation Burst
+Crimson Jewel
+--------
+Item Level: 78
+--------
+14% increased Physical Damage with Maces
+6% increased Attack Speed with Maces
+8% increased Global Critical Strike Chance
+--------
+Place into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.
+--------
+Note: ~b/o 16 chaos
+ 
+
+
+
+Rarity: Rare
+Demon Scarab
+Gold Amulet
+--------
+Requirements:
+Level: 57
+--------
+Item Level: 81
+--------
+18% increased Rarity of Items found
+--------
+20% increased Spell Damage
++11% to all Elemental Resistances
++44% to Cold Resistance
++36% to Lightning Resistance
++36 to maximum Life
+0.35% of Physical Attack Damage Leeched as Mana P1
+--------
+Note: ~b/o 38 chaos
+ 
+
+
+
+
+Rarity: Rare
+Demon Scarab
+Gold Amulet
+--------
+Requirements:
+Level: 57
+--------
+Item Level: 81
+--------
+18% increased Rarity of Items found
+--------
+20% increased Spell Damage
++11% to all Elemental Resistances
++44% to Cold Resistance
++36% to Lightning Resistance
++36 to maximum Life
+--------
+Note: ~b/o 38 chaos
+ 
+
+
+
+
+
+
+
+Rarity: Unique
+Whakawairua Tuahu
+Strand Map
+--------
+Map Tier: 6
+Item Quantity: +60% (augmented)
+Item Rarity: +137% (augmented)
+--------
+Item Level: 78
+--------
+Area contains many Totems
+Curses have 50% reduced effect on Monsters
+Rare Monsters each have a Nemesis Mod
+--------
+We all began life in darkness, we shall all end it there.
+--------
+Travel to this Map by using it in the Eternal Laboratory or a personal Map Device. Maps can only be used once.
+ 
+
+
+
+
+
+
+Rarity: Rare
+Maelstrom Ward
+Eternal Burgonet
+--------
+Quality: +20% (augmented)
+Armour: 761 (augmented)
+--------
+Requirements:
+Level: 70
+Str: 155
+Int: 155
+--------
+Sockets: B-B-R-R 
+--------
+Item Level: 80
+--------
+25% increased Explosive Arrow Damage
+--------
+115% increased Armour
++98 to maximum Life
++35% to Cold Resistance
++34% to Lightning Resistance
+13% increased Stun Recovery
++27% to Fire Resistance
+ 
+
+
+
+Rarity: Rare
+Maelstrom Ward
+Eternal Burgonet
+--------
+Quality: +20% (augmented)
+Armour: 761 (augmented)
+--------
+Requirements:
+Level: 70
+Str: 155
+Int: 155
+--------
+Sockets: B-B-R-R 
+--------
+Item Level: 80
+--------
+25% increased Explosive Arrow Damage
+--------
+115% increased Armour
++98 to maximum Life
++35% to Cold Resistance
++34% to Lightning Resistance
+13% increased Stun Recovery
++27% to Fire Resistance
+ 
+
+
+
+
+ 
+
+
+Rarity: Rare
+Miracle Clasp
+Amber Amulet
+--------
+Requirements:
+Level: 61
+--------
+Item Level: 80
+--------
++1 to Maximum Frenzy Charges
+--------
++35 to Intelligence
+22% increased Armour
++87 to maximum Life
++55 to maximum Mana
++42% to Fire Resistance
+--------
+Corrupted
+
+
+
+
+Rarity: Normal
+Mortal Hope
+--------
+Item Level: 72
+--------
+Look to our Queen, for she will lead us from the darkness.
+--------
+Can be used in the Eternal Laboratory or a personal Map Device.
+
+
+
+
+
+Rarity: Magic
+Sapping Divine Life Flask of Staunching
+--------
+Quality: +20% (augmented)
+Recovers 4032 (augmented) Life over 7.00 Seconds
+Consumes 15 of 45 Charges on use
+Currently has 45 Charges
+--------
+Requirements:
+Level: 60
+--------
+Item Level: 65
+--------
+40% increased Life Recovered
+Removes 10% of Life Recovered from Mana when used
+Immunity to Bleeding during Flask effect
+Removes Bleeding on use
+--------
+Right click to drink. Can only hold charges while in belt. Refills as you kill monsters.
+
+
+
+Rarity: Rare
+Eagle Bliss
+Crimson Jewel
+--------
+Item Level: 70
+--------
+12% increased Physical Damage with Two Handed Melee Weapons
++12% to Melee Critical Strike Multiplier
+6% increased maximum Life
++15% to Fire Resistance
+--------
+Place into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.
+--------
+Corrupted
+--------
+Note: ~b/o 25 chaos
+
+
+
+Rarity: Rare
+Storm Burst
+Imperial Maul
+--------
+Two Handed Mace
+Physical Damage: 189-298 (augmented)
+Elemental Damage: 79-160 (augmented)
+Critical Strike Chance: 5.00%
+Attacks per Second: 1.20
+--------
+Requirements:
+Level: 65
+Str: 212
+--------
+Sockets: B R-G 
+--------
+Item Level: 79
+--------
+20% increased Stun Duration on Enemies
+--------
+95% increased Physical Damage
+Adds 23-42 Physical Damage
+Adds 79-160 Fire Damage
++44% to Lightning Resistance
++14 Life gained on Kill
+ 
+
+
+Rarity: Rare
+Behemoth Scratch
+Lion Sword
+--------
+Two Handed Sword
+Physical Damage: 62-103
+Elemental Damage: 60-117 (augmented), 40-86 (augmented), 10-200 (augmented)
+Critical Strike Chance: 5.00%
+Attacks per Second: 1.48 (augmented)
+--------
+Requirements:
+Level: 65
+Str: 104
+Dex: 122 (unmet)
+--------
+Sockets: G 
+--------
+Item Level: 83
+--------
+18% increased Accuracy Rating
+--------
+Adds 60-117 Fire Damage
+Adds 40-86 Cold Damage
+Adds 10-200 Lightning Damage
+14% increased Attack Speed
+33% increased Stun Duration on Enemies
+
+
+Rarity: Magic
+Experimenter's Granite Flask of Iron Skin
+--------
+Quality: +20% (augmented)
+Lasts 6.30 (augmented) Seconds
+Consumes 30 of 60 Charges on use
+Currently has 0 Charges
++3000 to Armour (augmented)
+--------
+Requirements:
+Level: 27
+--------
+Item Level: 60
+--------
+96% increased Armour during Flask effect
+37% increased Duration
+--------
+Right click to drink. Can only hold charges while in belt. Refills as you kill monsters.
+
+
+
+Rarity: Rare
+Loath Cry
+Profane Wand
+--------
+Wand
+Quality: +20% (augmented)
+Physical Damage: 119-206 (augmented)
+Critical Strike Chance: 10.08% (augmented)
+Attacks per Second: 1.35
+--------
+Requirements:
+Level: 70
+Int: 237 (unmet)
+--------
+Sockets: B-R-B 
+--------
+Item Level: 77
+--------
+6% increased Cast Speed
+--------
+144% increased Physical Damage
+Adds 22-35 Physical Damage
+30% increased Fire Damage
+8% increased Cast Speed
+26% increased Critical Strike Chance
+--------
+Note: ~b/o 3 exa

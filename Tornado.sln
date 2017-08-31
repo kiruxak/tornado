@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoeParser", "PoeParser\PoeParser.csproj", "{7147A284-7D74-4B77-ACEB-27C5665DC3BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoeOverlay", "PoeOverlay\PoeOverlay.csproj", "{EC4B25DA-EBA8-4C2C-8D6E-F6709F271FD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoeTrade", "PoeTrade\PoeTrade.csproj", "{1DEF858F-2B2F-416A-9CA6-10AADD6FF554}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoeTest", "PoeTest\PoeTest.csproj", "{42A1A407-FD2E-450A-8016-EB1585730993}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7147A284-7D74-4B77-ACEB-27C5665DC3BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7147A284-7D74-4B77-ACEB-27C5665DC3BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7147A284-7D74-4B77-ACEB-27C5665DC3BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7147A284-7D74-4B77-ACEB-27C5665DC3BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC4B25DA-EBA8-4C2C-8D6E-F6709F271FD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC4B25DA-EBA8-4C2C-8D6E-F6709F271FD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC4B25DA-EBA8-4C2C-8D6E-F6709F271FD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC4B25DA-EBA8-4C2C-8D6E-F6709F271FD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DEF858F-2B2F-416A-9CA6-10AADD6FF554}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DEF858F-2B2F-416A-9CA6-10AADD6FF554}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DEF858F-2B2F-416A-9CA6-10AADD6FF554}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DEF858F-2B2F-416A-9CA6-10AADD6FF554}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42A1A407-FD2E-450A-8016-EB1585730993}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42A1A407-FD2E-450A-8016-EB1585730993}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42A1A407-FD2E-450A-8016-EB1585730993}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42A1A407-FD2E-450A-8016-EB1585730993}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

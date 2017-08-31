@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EC4B25DA-EBA8-4C2C-8D6E-F6709F271FD1}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PoeOverlay</RootNamespace>
+    <AssemblyName>Tornado</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Tornado.Build\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Tornado\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>tornado.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Framework\ChooseColor.cs" />
+    <Compile Include="Framework\Enums\ProcessAccessFlags.cs" />
+    <Compile Include="Framework\Helpers\ActionHelper.cs" />
+    <Compile Include="Framework\Helpers\ConvertHelper.cs" />
+    <Compile Include="Framework\Helpers\LinqHelper.cs" />
+    <Compile Include="Framework\Helpers\MathHepler.cs" />
+    <Compile Include="Framework\InputHooks\HookProc.cs" />
+    <Compile Include="Framework\InputHooks\KeyboardHook.cs" />
+    <Compile Include="Framework\InputHooks\KeyInfo.cs" />
+    <Compile Include="Framework\InputHooks\Structures\KeyboardHookStruct.cs" />
+    <Compile Include="Framework\Memory.cs" />
+    <Compile Include="Framework\TimeAction.cs" />
+    <Compile Include="Framework\WinApi.cs" />
+    <Compile Include="Hud\ExternalOverlay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Hud\Interfaces\IPlugin.cs" />
+    <Compile Include="Hud\Notification\ItemNotification.cs" />
+    <Compile Include="Hud\Plugin.cs" />
+    <Compile Include="Hud\Tooltip\ClipboardService.cs" />
+    <Compile Include="Hud\Tooltip\TooltipPlugin.cs" />
+    <Compile Include="Hud\UI\Graphics.cs" />
+    <Compile Include="Hud\UI\Renderers\FontRenderer.cs" />
+    <Compile Include="Hud\UI\Renderers\TextureRenderer.cs" />
+    <Compile Include="Hud\UI\Vertexes\ColoredVertex.cs" />
+    <Compile Include="Hud\UI\Vertexes\TexturedVertex.cs" />
+    <Compile Include="Model\Pattern.cs" />
+    <Compile Include="Poe\Offsets.cs" />
+    <Compile Include="Program.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="SharpDX, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.3.0.0\lib\net45\SharpDX.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SharpDX.Desktop, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Desktop.3.0.0\lib\net45\SharpDX.Desktop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D9, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct3D9.3.0.0\lib\net45\SharpDX.Direct3D9.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DXGI.3.0.0\lib\net45\SharpDX.DXGI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SharpDX.Mathematics, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Mathematics.3.0.0\lib\net45\SharpDX.Mathematics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PoeParser\PoeParser.csproj">
+      <Project>{7147A284-7D74-4B77-ACEB-27C5665DC3BF}</Project>
+      <Name>PoeParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PoeTrade\PoeTrade.csproj">
+      <Project>{1DEF858F-2B2F-416A-9CA6-10AADD6FF554}</Project>
+      <Name>PoeTrade</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="tornado.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Hud\Settings\" />
+    <Folder Include="Hud\UI\BlockDraw\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
