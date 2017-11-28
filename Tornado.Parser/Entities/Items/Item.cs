@@ -30,15 +30,13 @@ namespace Tornado.Parser.Entities {
         protected Item(string source, ItemRarity rarity, Core core, string name) : base(source, rarity, core.Type, name) {
             Core = core;
 
-            var parts = source.Split(new[] {
-                "--------"
-            }, StringSplitOptions.RemoveEmptyEntries).ToList();
-            if (parts.Last().ContainsPattern("\r\nMirrored"))
+            var parts = source.Split(new[] { "--------" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            if (parts.Last().ContainsPattern("\r\nMirrored")) 
                 parts.RemoveAt(parts.Count - 1); // Mirrored
-            if (parts.Last().ContainsPattern("\r\nCorrupted"))
-                parts.RemoveAt(parts.Count - 1); // Corrupted
             if (parts.Last().ContainsPattern("Note:"))
                 parts.RemoveAt(parts.Count - 1); // Note with b/o
+            if (parts.Last().ContainsPattern("\r\nCorrupted"))
+                parts.RemoveAt(parts.Count - 1); // Corrupted
             if (parts.Last().ContainsPattern("\r\nHas "))
                 parts.RemoveAt(parts.Count - 1); // Effect
 

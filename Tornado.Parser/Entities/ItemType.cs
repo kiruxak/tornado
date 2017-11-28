@@ -36,6 +36,7 @@ namespace Tornado.Parser.Entities {
         Gem,
         [Description("Divination Card")]
         DivinationCard,
+        [Description("Vaal Fragment")]
         VaalFragment,
         Weapon1H,
         Weapon2H,
