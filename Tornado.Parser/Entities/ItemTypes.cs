@@ -280,7 +280,7 @@ namespace Tornado.Parser.Entities {
 
         public static List<string> VaalFrarments = new List<string>() {
             "Sacrifice at Dawn",
-            "Sacrifice at Mignight",
+            "Sacrifice at Midnight",
             "Sacrifice at Noon",
             "Sacrifice at Dusk",
             "Mortal Grief",
@@ -343,7 +343,8 @@ namespace Tornado.Parser.Entities {
             "Golden Obi",
             "Cloth Belt",
             "Studded Belt",
-            "Crystal Belt"
+            "Crystal Belt",
+            "Stygian Vise"
         };
 
         private static readonly List<string> Jewels = new List<string>() {

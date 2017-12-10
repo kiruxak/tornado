@@ -3,7 +3,7 @@
 namespace Tornado.Parser {
     public class Config {
         public static string Folder_Root = AppDomain.CurrentDomain.BaseDirectory;
-        public static string Folder_Affixes = $"{Folder_Root}\\Affixes";
+        public static string Folder_Affixes = $"{Folder_Root}";
         public static string PickitFileUrl = $"{Folder_Root}\\pickit.ini";
 
         public const string PoeTradeUrl = "http://poe.trade/search";
