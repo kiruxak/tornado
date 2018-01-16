@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -15,7 +16,7 @@ namespace Tornado.Parser.PoeTrade {
         public const string PoeTradeSortQuery = "sort=price_in_chaos&bare=true";
 
         private HttpClient CreateHttpClient() {
-            var client = new HttpClient {
+            var client = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate }) {
                 BaseAddress = new Uri(PoeTradeUrl)
             };
 
@@ -33,6 +34,7 @@ namespace Tornado.Parser.PoeTrade {
             try {
                 var apiResponse = await client.PostAsync(PoeTradeUrl, content);
                 var responseData = await apiResponse.Content.ReadAsStringAsync();
+
                 return responseData;
             } finally {
                 client?.Dispose();

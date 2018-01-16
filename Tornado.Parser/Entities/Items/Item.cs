@@ -14,8 +14,8 @@ namespace Tornado.Parser.Entities {
         public Core Core { get; set; }
         public NiceDictionary<string, IAffixValue> Affixes { get; set; } = new NiceDictionary<string, IAffixValue>();
 
-        private string AffixSource { get; }
-        private string ImplicitSource { get; }
+        public string AffixSource { get; }
+        public string ImplicitSource { get; }
 
         //todo fix this
         public bool CanCraft => Config.ShowCraft && (PrefixesCount + SuffixesCount < 6) && (PrefixesCount < 3 || SuffixesCount < 3) && !Corrupted && !HasCraft && Rarity != ItemRarity.Unique;

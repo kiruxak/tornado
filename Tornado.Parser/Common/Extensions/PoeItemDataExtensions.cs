@@ -12,7 +12,7 @@ namespace Tornado.Parser.Common.Extensions {
                         .Add($"{(showTime ? "(" + data.SellingTime + ")" : "")}", ToolTipColor.GeneralGroup, size - 2, heightOffset: 1);
             }
 
-            return new List<ColoredText>().Add( /*Expensive ? "∞" : Message*/ data.Message, color, size);
+            return new List<ColoredText>().Add(data.Message, color, size);
         }
 
         public static bool IsExpensive(this PoeItemData data) {

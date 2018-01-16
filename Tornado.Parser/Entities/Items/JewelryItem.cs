@@ -10,7 +10,12 @@ namespace Tornado.Parser.Entities {
         }
 
         public override NiceDictionary<string, string> GetPoeTradeAffixes(FilterResult filter) {
-            return Core.GetPoeTradeAffixes(filter);
+            var properties =  Core.GetPoeTradeAffixes(filter);
+
+            if (ImplicitSource.Contains("Has 1 Abyssal Socket")) {
+                properties.Add("base", "Stygian Vise");
+            }
+            return properties;
         }
 
         public override string ToString() {

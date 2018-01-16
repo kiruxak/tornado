@@ -22,6 +22,14 @@ namespace Tornado.Parser.Entities {
         public override NiceDictionary<string, string> GetPoeTradeAffixes(FilterResult filter) {
             var generalParams = Core.GetPoeTradeAffixes(filter);
             generalParams.Add("rarity", "rare");
+
+            if (Core.Base.Name == "Spiked Gloves") {
+                generalParams.Add("base", "Spiked Gloves");
+            }
+            if (Core.Base.Name == "Fingerless Silk Gloves") {
+                generalParams.Add("base", "Fingerless Silk Gloves");
+            }
+
             return generalParams;
         }
 
