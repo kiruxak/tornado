@@ -38,7 +38,7 @@ namespace Tornado.Parser.Filter {
                 if (Value > 0.7) {
                     Color = "FFDE9800";
                 }
-                if (Value > 1) {
+                if (Value > 0.98) {
                     Color = "FF00DE21";
                 }
                 if (item.Rarity == ItemRarity.Unique)
@@ -82,7 +82,11 @@ namespace Tornado.Parser.Filter {
                             if (PoeData.Affixes.ContainsKey(affix) && PossiblyToCraft.All(a => a.Name != affix)) {
                                 PossiblyToCraft.Add(PoeData.Affixes[affix]);
                             } else {
-                                AddPossibleCraft(item, PoeData.TotalAffixes.ContainsKey(affix) ? PoeData.TotalAffixes[affix] : item.Core.GetTotalAffixes(item)[affix]);
+                                if (PoeData.TotalAffixes.ContainsKey(affix)) {
+                                    AddPossibleCraft(item, PoeData.TotalAffixes[affix]);
+                                } else if (item.Core.GetTotalAffixes(item).ContainsKey(affix)) { 
+                                    AddPossibleCraft(item, item.Core.GetTotalAffixes(item)[affix]);
+                                }
                             }
                         }
                     }

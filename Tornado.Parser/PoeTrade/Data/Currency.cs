@@ -30,43 +30,43 @@ namespace Tornado.Parser.PoeTrade.Data {
             {
                 CurrencyType.coin, 0.01
             }, {
-                CurrencyType.alteration, 0.07
+                CurrencyType.alteration, 0.09
             }, {
-                CurrencyType.chromatic, 0.08
+                CurrencyType.chromatic, 0.1
             }, {
-                CurrencyType.silver, 0.1
+                CurrencyType.silver, 0.22
             }, {
-                CurrencyType.jewellers, 0.13
+                CurrencyType.jewellers, 0.1
             }, {
-                CurrencyType.bauble, 0.15
+                CurrencyType.bauble, 0.09
             }, {
-                CurrencyType.chance, 0.16
+                CurrencyType.chance, 0.1
             }, {
-                CurrencyType.alchemy, 0.30
+                CurrencyType.alchemy, 0.34
             }, {
-                CurrencyType.chisel, 0.30
+                CurrencyType.chisel, 0.45
             }, {
-                CurrencyType.blessed, 0.43
+                CurrencyType.blessed, 0.23
             }, {
-                CurrencyType.fusing, 0.5
+                CurrencyType.fusing, 0.43
             }, {
-                CurrencyType.scouring, 0.6
+                CurrencyType.scouring, 0.36
             }, {
-                CurrencyType.regal, 0.98
+                CurrencyType.regal, 0.8
             }, {
                 CurrencyType.chaos, 1
             }, {
-                CurrencyType.regret, 1
+                CurrencyType.regret, 0.6
             }, {
-                CurrencyType.vaal, 1.1
+                CurrencyType.vaal, 1
             }, {
-                CurrencyType.gcp, 1.5
+                CurrencyType.gcp, 0.9
             }, {
                 CurrencyType.divine, 12
             }, {
                 CurrencyType.exalted, 75
             }, {
-                CurrencyType.mirror, 6000
+                CurrencyType.mirror, 13000
             }
         };
 

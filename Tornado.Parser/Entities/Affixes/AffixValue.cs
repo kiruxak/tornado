@@ -21,8 +21,8 @@ namespace Tornado.Parser.Entities.Affixes {
 
         public override string ToString() {
             return IsCraft
-                ? $"{Value.ToString("0.#")}{Name}"
-                : $"[{Value.ToString("0.#")}{(MaxValue == Value ? "" : $"/{MaxValue.ToString("0.#")}")}]{Name}";
+                ? $"{Value.ToString("0.#")} {Name}"
+                : $"[{Value.ToString("0.#")}{(MaxValue == Value ? "" : $"/{MaxValue.ToString("0.#")}")}] {Name}";
         }
     }
 }

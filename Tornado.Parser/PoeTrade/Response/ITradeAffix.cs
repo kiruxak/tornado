@@ -4,4 +4,10 @@ namespace Tornado.Parser.PoeTrade.Response {
         string PoeTradeName { get; }
         double Value { get; }
     }
+
+    public class TradeAffix : ITradeAffix {
+        public bool IsTotal { get; set; }
+        public string PoeTradeName { get; set; }
+        public double Value { get; set; }
+    }
 }

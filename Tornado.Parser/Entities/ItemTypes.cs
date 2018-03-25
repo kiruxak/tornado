@@ -350,7 +350,11 @@ namespace Tornado.Parser.Entities {
         private static readonly List<string> Jewels = new List<string>() {
             "Cobalt Jewel",
             "Crimson Jewel",
-            "Viridian Jewel"
+            "Viridian Jewel",
+            "Ghastly Eye Jewel",
+            "Murderous Eye Jewel",
+            "Searching Eye Jewel",
+            "Hypnotic Eye Jewel"
         };
         #endregion
     }

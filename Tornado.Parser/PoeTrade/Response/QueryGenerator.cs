@@ -157,7 +157,7 @@ namespace Tornado.Parser.PoeTrade.Response {
             }
 
             StringBuilder postBuilder = new StringBuilder();
-            createQueryParams(itemAffixes.Where(a => !string.IsNullOrEmpty(a.PoeTradeName)).ToList());
+            createQueryParams(itemAffixes.Where(a => a.PoeTradeName != "(\\d+)% increased Critical Strike Chance" && !string.IsNullOrEmpty(a.PoeTradeName)).ToList());
 
             foreach (var param in generalAffixes) {
                 if (param.Key == "q_min") {

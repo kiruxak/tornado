@@ -82,7 +82,7 @@ namespace Tornado.Parser.Parser {
                             item = null;
                     }
                     if (core.Type == ItemType.Jewel && rarity != ItemRarity.Unique)
-                        return null; //todo jewels atleast track life or es
+                        item = new JewelItem(source, rarity, name); //todo jewels atleast track life or es
                     if (rarity == ItemRarity.Rare) {
                         if (core.Type.IsWeapon())
                             item = new WeaponItem(source, rarity, core, name);

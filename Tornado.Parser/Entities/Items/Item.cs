@@ -39,13 +39,20 @@ namespace Tornado.Parser.Entities {
                 parts.RemoveAt(parts.Count - 1); // Corrupted
             if (parts.Last().ContainsPattern("\r\nHas "))
                 parts.RemoveAt(parts.Count - 1); // Effect
+            if (parts.Last().ContainsPattern("\r\nElder Item") || parts.Last().ContainsPattern("\r\nShaper Item"))
+                parts.RemoveAt(parts.Count - 1); // Effect
 
             if (rarity == ItemRarity.Unique) {
                 AffixSource = parts[parts.Count - 2];
                 ImplicitSource = parts[parts.Count - 3];
             } else {
-                AffixSource = parts.Last();
-                ImplicitSource = parts[parts.Count - 2];
+                if (core.Type == ItemType.Jewel) {
+                    AffixSource = parts[parts.Count - 2];
+                    ImplicitSource = "";
+                } else {
+                    AffixSource = parts.Last();
+                    ImplicitSource = parts[parts.Count - 2];
+                }
             }
 
             GetAffixes(AffixSource, PoeData.Affixes.Values.Where(x => x.Type == AffixType.Suffix || x.Type == AffixType.Prefix));
