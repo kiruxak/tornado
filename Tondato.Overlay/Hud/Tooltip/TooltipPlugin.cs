@@ -12,10 +12,12 @@ using Tornado.Overlay.Framework.InputHooks;
 using Tornado.Overlay.Hud.UI;
 using Tornado.Parser;
 using Tornado.Parser.Common.Extensions;
+using Tornado.Parser.Entities;
 using Tornado.Parser.Filter;
 using Tornado.Parser.Filter.Tooltip;
 using Tornado.Parser.Parser;
 using Tornado.Parser.PoeTrade;
+using Tornado.Parser.PoeTrade.Data;
 using Rectangle = System.Drawing.Rectangle;
 
 namespace Tornado.Overlay.Hud.Tooltip {
@@ -23,14 +25,16 @@ namespace Tornado.Overlay.Hud.Tooltip {
         private static readonly object Locker = new object();
         private const string PRICE_RESPONSE_TEXT = "Price: waiting";
 
-        private List<Tornado.Parser.Filter.Tooltip.ColoredLine> lines;
+        private List<ColoredLine> lines;
         private string clipboard = "";
         private bool holdKey;
+        private bool holdAlt;
+        private bool holdZ;
         private FilterResult filter;
         private DateTime? tooltipHideDt = DateTime.Now;
         private DateTime _lastUpdate = DateTime.Now;
         private DateTime _lastPoeOpenClick = DateTime.Now;
-        private bool isPriceLoaded = false;
+        private List<string> priceLoaded = new List<string>();
         private Vector2 checkPosition = new Vector2(0, 0);
         private readonly int checkRadius;
 
@@ -60,13 +64,13 @@ namespace Tornado.Overlay.Hud.Tooltip {
         }
 
         private FilterResult GetFilter() {
-            filter = ItemParser.Parse(clipboard);
+            filter = ItemParser.Parse(clipboard, holdAlt);
             if (filter == null) {
                 return null;
             }
 
             tooltipHideDt = null;
-            isPriceLoaded = false;
+            priceLoaded = new List<string>();
             lines = new ToolTipGenerator(filter).GetTooltip();
             lines.Insert(0, new ColoredLine(PRICE_RESPONSE_TEXT, "FFCDCDCD", 18));
 
@@ -76,6 +80,7 @@ namespace Tornado.Overlay.Hud.Tooltip {
         public ItemTooltipPlugin(Graphics graphics, Rectangle bounds) : base(graphics) {
             checkRadius = bounds.Width / 120;
             lines = new List<ColoredLine>();
+            priceLoaded = new List<string>();
             KeyboardHook.KeyDown += onKeyDown;
             KeyboardHook.KeyUp += onKeyUp;
         }
@@ -86,11 +91,16 @@ namespace Tornado.Overlay.Hud.Tooltip {
                 if (tooltipHideDt == null)
                     tooltipHideDt = DateTime.Now;
             }
+            if (!obj.Alt) {
+                holdAlt = false;
+            }
+            if (obj.Keys == Keys.Z)
+            {
+                holdZ = false;
+            }
             if (WinApi.IsKeyDownAsync(Keys.F6)) {
                 FilterResult curFilter = Filter;
-                if (curFilter == null) {
-                    return;
-                }
+                if (curFilter == null) { return; }
 
                 if (Monitor.TryEnter(this) && (DateTime.Now - _lastPoeOpenClick).TotalMilliseconds > 500) {
                     try {
@@ -102,6 +112,34 @@ namespace Tornado.Overlay.Hud.Tooltip {
                 }
             }
             if (WinApi.IsKeyDownAsync(Keys.F7)) {
+                FilterResult curFilter = Filter;
+                if (curFilter == null) { return; }
+
+                if (Monitor.TryEnter(this) && (DateTime.Now - _lastPoeOpenClick).TotalMilliseconds > 500) {
+                    try {
+                        curFilter.OpenBasePoeTrade();
+                        _lastPoeOpenClick = DateTime.Now;
+                    } finally {
+                        Monitor.Exit(this);
+                    }
+                }
+            }
+            if (WinApi.IsKeyDownAsync(Keys.F8)) {
+                FilterResult curFilter = Filter;
+                if (curFilter == null) { return; }
+
+                if (Monitor.TryEnter(this) && (DateTime.Now - _lastPoeOpenClick).TotalMilliseconds > 500) {
+                    try {
+                        curFilter.OpenSyncPoeTrade();
+                        _lastPoeOpenClick = DateTime.Now;
+                    }
+                    finally {
+                        Monitor.Exit(this);
+                    }
+                }
+            }
+
+            if (WinApi.IsKeyDownAsync(Keys.F12)) {
                 Config.Debug = !Config.Debug;
             }
         }
@@ -109,6 +147,12 @@ namespace Tornado.Overlay.Hud.Tooltip {
         private void onKeyDown(KeyInfo obj) {
             if (obj.Shift) {
                 holdKey = true;
+            }
+            if (obj.Alt) {
+                holdAlt = true;
+            }
+            if (obj.Keys == Keys.Z) {
+                holdZ = true;
             }
         }
 
@@ -127,24 +171,47 @@ namespace Tornado.Overlay.Hud.Tooltip {
         }
 
         private void DrawTooltip(FilterResult curFilter) {
-            if (curFilter.Item.Prices != null && curFilter.Item.Prices.Count > 0 && !isPriceLoaded) {
-                isPriceLoaded = true;
+            foreach (var price in curFilter.Item.Prices.ToList()) {
+                if (priceLoaded.Contains(price.Key)) {
+                    continue;
+                }
 
-                var price = curFilter.Item.Price;
+                var curPrice = price.Value.FirstOrDefault();
 
-                ColoredLine line = lines.ElementAt(0);
+                ColoredLine line = priceLoaded.Count == 0 ? lines.ElementAt(0) : new ColoredLine();
                 line.TextCollection.Clear();
-                line.TextCollection.Add(new ColoredText($"Price: ", "FFCDCDCD", 16));
-                line.TextCollection.AddRange(price.GetPriceColoredLines(price.IsExpensive() ? "FF00DE21" : "FFCDCDCD", 16));
-                line.TextCollection.AddRange(curFilter.Item.Prices.Skip(1).Take(4).SelectMany(p => {
-                    var linex = p.GetPriceColoredLines("FFCDCDCD", 14, false);
-
-                    foreach (var l in linex) {
-                        l.HeightOffset = 1;
+                line.TextCollection.Add(new ColoredText($"{price.Key}:", "FFCDCDCD", 16));
+                line.TextCollection.AddRange(curPrice.GetPriceColoredLines(curPrice.IsExpensive() ? "FF00DE21" : "FFCDCDCD", 16));
+                line.TextCollection.AddRange(price.Value.Skip(1)
+                                                  .Take(4)
+                                                  .SelectMany(p => {
+                                                      var linex = p.GetPriceColoredLines("FFCDCDCD", 14, false);
+                                                      foreach (var l in linex) { l.HeightOffset = 1; }
+                                                      linex.Insert(0, new ColoredText(",", "FFCDCDCD", 14, heightOffset: 1));
+                                                      return linex;
+                                                  }));
+                if (filter.Item.Rarity != ItemRarity.Rare || filter.Item.Type == ItemType.Jewel || filter.Item.Type == ItemType.AbyssalJewel || filter.Item.Type == ItemType.Map || price.Key.StartsWith("Base Price")) {
+                    var pricesCount = price.Value.Count;
+                    var avgPrice = pricesCount > 20
+                            ? price.Value.OrderBy(c => c.Currency.ValueInChaos)
+                                   .Skip((int)(pricesCount * 0.2))
+                                   .Take((int)(pricesCount * 0.6))
+                                   .Average(c => c.Currency.ValueInChaos)
+                            : price.Value.OrderBy(c => c.Currency.ValueInChaos).Average(c => c.Currency.ValueInChaos);
+                    var exalt = Currency.Data.lines?.FirstOrDefault(c => c.currencyTypeName == Currency.CurrencyName[CurrencyType.exalted]);
+                    var prefix = "c";
+                    if (avgPrice > exalt?.chaosEquivalent * 3) {
+                        avgPrice = avgPrice / exalt.chaosEquivalent;
+                        prefix = "exa";
                     }
-                    linex.Insert(0, new ColoredText(", ", "FFCDCDCD", 14, heightOffset: 1));
-                    return linex;
-                }));
+                    if (avgPrice > 0 && (prefix == "exa" || pricesCount > 1)) { 
+                        line.TextCollection.Add(new ColoredText($"   Avg[{price.Value.Count}]:~{avgPrice:F2}{prefix}", avgPrice > 1.9 ? "FF00DE21" : "FFCDCDCD", 16));
+                    }
+                }
+                if (priceLoaded.Count > 0) {
+                    lines.Insert(0, line);
+                }
+                priceLoaded.Add(price.Key);
             }
 
             var width = 0;

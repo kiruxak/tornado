@@ -14,6 +14,7 @@ namespace Tornado.Parser.Filter.Nodes {
     public interface IAffixResultNode : IResultNode {
         string Group { get; set; }
         string Name { get; set; }
+        double Logical { get; set; }
     }
 
     public class ResultNode : ILogicResultNode {
@@ -46,6 +47,7 @@ namespace Tornado.Parser.Filter.Nodes {
     public class AffixResultNode : IAffixResultNode {
         public string Group { get; set; }
         public string Name { get; set; }
+        public double Logical { get; set; }
         public double Value { get; set; }
         public bool DisplayOnly { get; set; }
     }

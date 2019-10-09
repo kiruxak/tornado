@@ -1,14 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using Newtonsoft.Json;
 using Tornado.Common.Extensions;
 using Tornado.Common.Utility;
 using Tornado.Parser.Common.Extensions;
 using Tornado.Parser.Data;
+using Tornado.Parser.Data.Bases;
 using Tornado.Parser.Entities.Affixes;
 using Tornado.Parser.Filter;
 using Tornado.Parser.Parser;
+using Tornado.Parser.PoeTrade.Data;
 
 namespace Tornado.Parser {
     public class PoeData {
@@ -19,6 +24,8 @@ namespace Tornado.Parser {
         public static NiceDictionary<string, ArmourBase> Shields;
 
         public static NiceDictionary<string, WeaponBase> Weapons;
+        public static NiceDictionary<string, DivCard> DivCards;
+        public static NiceDictionary<string, SynthesisGroup> SynthesisImplicits;
 
         public static NiceDictionary<string, Affix> Affixes;
         public static NiceDictionary<string, TotalAffixRecord> TotalAffixes;
@@ -38,6 +45,47 @@ namespace Tornado.Parser {
             Config.ShowNotification = config.ContainsPattern("ShowNotification=True");
             Config.ShowCraft = config.ContainsPattern("ShowCraft=True");
             Config.MinPrice = config.ParseTo(1.0, "MinPrice=([\\d.]+)");
+
+            InitCurrencyValues();
+            InitFossilValues();
+            InitDivCardsValues();
+        }
+
+        private static async void InitCurrencyValues() {
+            try {
+                var client = new HttpClient();
+                var response = await client.GetAsync("http://poe.ninja/api/Data/GetCurrencyOverview?league=" + Config.LeagueName);
+                var stringData = await response.Content.ReadAsStringAsync();
+
+                Currency.Data = JsonConvert.DeserializeObject<CurrencyData>(stringData);
+            }
+            catch (Exception e) {
+                // ignore
+            }
+        }
+
+        private static async void InitFossilValues() {
+            try {
+                var client = new HttpClient();
+                var response = await client.GetAsync($"https://poe.ninja/api/data/itemoverview?league={Config.LeagueName}&type=Fossil&date={DateTime.Now:yyyy-MM-dd}");
+                var stringData = await response.Content.ReadAsStringAsync();
+
+                Currency.FossilData = JsonConvert.DeserializeObject<CurrencyData>(stringData);
+            } catch (Exception e) {
+                // ignore
+            }
+        }
+
+        private static async void InitDivCardsValues() {
+            try {
+                var client = new HttpClient();
+                var response = await client.GetAsync($"https://poe.ninja/api/data/itemoverview?league={Config.LeagueName}&type=DivinationCard&date={DateTime.Now:yyyy-MM-dd}");
+                var stringData = await response.Content.ReadAsStringAsync();
+
+                Currency.DivCardData = JsonConvert.DeserializeObject<CurrencyData>(stringData);
+            } catch (Exception e) {
+                // ignore
+            }
         }
 
         public static void InitFromExcel() {
@@ -73,6 +121,8 @@ namespace Tornado.Parser {
                 Helmets = sheetsData["helmets"].Elements<Row>().Skip(1).Where(x => x.Elements<Cell>().Any()).Select(r => new ArmourBase(r, sharedStringTable)).ToNiceDictionary(i => i.Name, i => i);
                 Shields = sheetsData["shields"].Elements<Row>().Skip(1).Where(x => x.Elements<Cell>().Any()).Select(r => new ArmourBase(r, sharedStringTable)).ToNiceDictionary(i => i.Name, i => i);
                 Weapons = sheetsData["weapons"].Elements<Row>().Skip(1).Where(x => x.Elements<Cell>().Any()).Select(r => new WeaponBase(r, sharedStringTable)).ToNiceDictionary(i => i.Name, i => i);
+                DivCards = sheetsData["divcards"].Elements<Row>().Skip(1).Where(x => x.Elements<Cell>().Any()).Select(r => new DivCard(r, sharedStringTable)).ToNiceDictionary(i => i.Name, i => i);
+                SynthesisImplicits = sheetsData["synthesis2"].Elements<Row>().Skip(1).Where(x => x.Elements<Cell>().Any()).Select(r => new SynthesisImplicit(r, sharedStringTable)).GroupBy(x => x.ReqStat).ToNiceDictionary(i => i.Key, i => new SynthesisGroup(i.ToList()));
             }
         }
     }

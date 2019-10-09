@@ -15,7 +15,6 @@ namespace Tornado.Common.Extensions {
             return nd;
         }
 
-
         public static NiceDictionary<TKey, TSource> ToNiceDictionary<TKey, TSource>(this IEnumerable<TSource> source, Func<TSource, TKey> keySetter) {
             var nd = new NiceDictionary<TKey, TSource>();
 

@@ -2,6 +2,7 @@
 using System.Linq;
 using Tornado.Common.Extensions;
 using Tornado.Common.Utility;
+using Tornado.Parser.Common.Extensions;
 using Tornado.Parser.Data;
 using Tornado.Parser.Entities;
 using Tornado.Parser.Entities.Affixes;
@@ -15,13 +16,20 @@ namespace Tornado.Parser.Filter {
 
             List<FilterGroup> groups = new List<FilterGroup>();
             List<FilterTree> filters = new List<FilterTree>();
+            Dictionary<ItemType, string> commonFilters = new Dictionary<ItemType, string>();
             foreach (string line in strings) {
                 if (string.IsNullOrEmpty(line) || line.StartsWith(";"))
                     continue;
                 if (line.StartsWith("group")) {
                     groups.Add(new FilterGroup(line));
-                } else {
-                    filters.Add(FilterTreeFactory.BuildTree(line));
+                } else if (line.StartsWith("common")) {
+                    var l = line.Replace("common ", "");
+                    var type = l.ParseTo(ItemType.Unknown, "(\\w+)");
+                    l = l.Replace(type.ToString(), "");
+                    commonFilters.Add(type, l);
+                }
+                else {
+                    filters.Add(FilterTreeFactory.BuildTree(line, commonFilters));
                 }
             }
 
@@ -36,7 +44,7 @@ namespace Tornado.Parser.Filter {
             Groups = groups.ToNiceDictionary(g => g.Name, g => g);
         }
 
-        public FilterResult Filter(BaseItem baseItem) {
+        public FilterResult Filter(BaseItem baseItem, bool noCraft) {
             Item item = baseItem as Item;
             FilterResult filter = GetFilter(item);
 
@@ -49,17 +57,25 @@ namespace Tornado.Parser.Filter {
             if (item != null && item.CanCraft) {
                 NiceDictionary<string, double> craftedValues = new NiceDictionary<string, double>();
 
-                foreach (Affix a in filter.PossiblyToCraft) {
-                    var tier = a.Tiers.Where(t => t.Craft && t.ForTypes.Contains(filter.Item.Type)).OrderByDescending(t => t.MinValue).FirstOrDefault();
-                    if (tier != null) {
-                        IAffixValue affixValue = new AffixValue(tier, a, tier.MaxValue, true);
-
-                        item.Affixes.Add(affixValue.Name, affixValue);
-                        var cFilter = GetFilter(item);
-                        if (cFilter != null) {
-                            craftedValues.Add(affixValue.Name, cFilter.Value);
+                var hasSpellDmg = item.Affixes.Any(x => x.Key.StartsWith("fSpell"));
+                if (!noCraft && item.CanHaveCraft) {
+                    foreach (Affix a in filter.PossiblyToCraft) {
+                        if (hasSpellDmg && a.Name.StartsWith("fSpell")) {
+                            continue;
                         }
-                        item.Affixes.Remove(affixValue.Name);
+                        var tier = a.Tiers.Where(t => t.Craft && t.ForTypes.Contains(filter.Item.Type)).OrderByDescending(t => t.MinValue).FirstOrDefault();
+                        if (tier != null) {
+                            IAffixValue affixValue = new AffixValue(tier, a, tier.MaxValue, true, false);
+
+                            item.Affixes.Add(affixValue.Name, affixValue);
+                            item.CraftAddedByFilter = true;
+                            item.UpdateTotalAffixes();
+                            var cFilter = GetFilter(item);
+                            if (cFilter != null) {
+                                craftedValues.Add(affixValue.Name, cFilter.Value);
+                            }
+                            item.Affixes.Remove(affixValue.Name);
+                        }
                     }
                 }
 
@@ -69,7 +85,7 @@ namespace Tornado.Parser.Filter {
                     var affixWinner = filter.PossiblyToCraft.First(a => a.Name == craftedValue.Key);
                     var tierWinner = affixWinner.Tiers.Where(t => t.Craft && t.ForTypes.Contains(filter.Item.Type)).OrderByDescending(t => t.MinValue).FirstOrDefault();
 
-                    var winner = new AffixValue(tierWinner, affixWinner, tierWinner.MaxValue, true);
+                    var winner = new AffixValue(tierWinner, affixWinner, tierWinner.MaxValue, true, false);
                     item.Affixes.Add(winner.Name, winner);
                     item.CraftAddedByFilter = true;
                     item.UpdateTotalAffixes();

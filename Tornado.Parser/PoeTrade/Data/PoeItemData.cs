@@ -43,7 +43,14 @@ namespace Tornado.Parser.PoeTrade.Data {
 
         public PoeItemData(Currency currency, string sellingTime) {
             Currency = currency;
-            SellingTime = sellingTime;
+            SellingTime = AdjustSellingTime(sellingTime);
+        }
+
+        private string AdjustSellingTime(string sellingTime) {
+            return sellingTime.Replace(" weeks", "w").Replace(" week", "w")
+                              .Replace(" days", "d").Replace(" day", "d").Replace("yesterday", "1d")
+                              .Replace(" hours", "h").Replace(" hour", "h")
+                              .Replace(" minutes", "m").Replace(" minute", "m");
         }
 
         public PoeItemData(string message) {

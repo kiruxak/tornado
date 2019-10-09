@@ -110,6 +110,7 @@ namespace Tornado.Parser.Filter {
             bool containsBaseMod = baseMods.Any(b => item.Affixes.ContainsKey(b));
 
             foreach (string match in matches) {
+                if (match == "Quality") continue;
                 if (!item.Affixes.ContainsKey(match)) {
                     if (baseMods.Contains(match) && containsBaseMod)
                         continue;

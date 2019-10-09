@@ -8,23 +8,13 @@ using Tornado.Parser.Filter;
 namespace Tornado.Parser.Data {
     public abstract class Base {
         public string Name { get; set; }
+        public int BaseTier { get; set; }
 
         public static NiceDictionary<string, string> PoeGeneralMap = new NiceDictionary<string, string>() {
-            {
-                BuildInAffixNames.PDps, "pdps_min"
-            }, {
-                BuildInAffixNames.EDps, "edps_min"
-            }, {
-                BuildInAffixNames.Dps, "dps_min"
-            }, {
-                BuildInAffixNames.WepCrit, "crit_min"
-            }, {
-                BuildInAffixNames.Armour, "armour_min"
-            }, {
-                BuildInAffixNames.Evasion, "evasion_min"
-            }, {
-                BuildInAffixNames.EnergyShield, "shield_min"
-            }
+            { BuildInAffixNames.PDps, "pdps_min" }, { BuildInAffixNames.EDps, "edps_min" },
+            { BuildInAffixNames.Dps, "dps_min" }, { BuildInAffixNames.WepCrit, "crit_min" },
+            { BuildInAffixNames.Armour, "armour_min"}, { BuildInAffixNames.Evasion, "evasion_min" },
+            { BuildInAffixNames.EnergyShield, "shield_min" }
         };
 
         public NiceDictionary<string, string> GetPoeTradeAffixes(FilterResult filter) {
@@ -45,8 +35,13 @@ namespace Tornado.Parser.Data {
         private void AddPoeTradeAffix(Dictionary<string, string> general, Item item, FilterResult filter, string name) {
             IAffixValue affixValue = item.Affixes.ContainsKey(name) ? item.Affixes[name] : null;
 
-            if (affixValue?.Value > 0 && filter.FilteredAffixes.Values.Any(a => a.Any(af => af.Name == name)))
-                general.Add(PoeGeneralMap[name], (affixValue.Value * Config.PoeTradeMod).ToString("0.##"));
+            if (affixValue?.Value > 0 && filter.FilteredAffixes.Values.Any(a => a.Any(af => af.Name == name))) {
+                if (item is UniqueItem) {
+                    general.Add(PoeGeneralMap[name], (affixValue.Value * 0.99).ToString("0.##"));
+                } else {
+                    general.Add(PoeGeneralMap[name], (affixValue.Value * Config.PoeTradeMod).ToString("0.##"));
+                }
+            }
         }
 
         public List<IAffixValue> GetAffixes(Item item) {

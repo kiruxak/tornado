@@ -28,8 +28,7 @@ namespace Tornado.Overlay.Hud.Tooltip {
             string clipBoardText = "";
             SimulateCtrlV();
 
-            Thread staThread = new Thread(
-                                          delegate() {
+            Thread staThread = new Thread(delegate() {
                                               try {
                                                   clipBoardText = Clipboard.GetText();
                                               } catch (Exception) {

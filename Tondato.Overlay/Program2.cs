@@ -34,7 +34,7 @@ Item Level: 81
 --------6
 Note: ~b/o 38 chaos";
 
-            var item = ItemParser.Parse(textClip);
+            var item = ItemParser.Parse(textClip, false);
             if (item == null)
                 return;
 

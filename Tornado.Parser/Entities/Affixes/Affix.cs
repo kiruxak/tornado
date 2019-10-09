@@ -23,6 +23,8 @@ namespace Tornado.Parser.Entities.Affixes {
             }
             return Tiers.Where(t => t.Craft && t.ForTypes.Contains(type)).OrderByDescending(t => t.MinValue).Take(1).LastOrDefault(t => val >= t.MinValue && val <= t.MaxValue);
         }
+
+        public override string ToString() { return $"{Name} - {Type}"; }
     }
 
     public class AffixTier {

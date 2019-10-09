@@ -10,9 +10,9 @@ using Item = Tornado.Parser.Entities.Item;
 
 namespace Tornado.Parser.Data {
     public class ArmourBase : Base, IRecord {
-        private const string AR_EXPRESSION = "({0}+fAR)*(120+mAR+mAres+mArev)/100";
-        private const string EV_EXPRESSION = "({0}+fEV)*(120+mEV+mEves+mArev)/100";
-        private const string ES_EXPRESSION = "({0}+fES)*(120+mES+mAres+mEves)/100";
+        private const string AR_EXPRESSION = "({0}+fAR)*(100+Quality+mAR+mAres+mArev)/100";
+        private const string EV_EXPRESSION = "({0}+fEV)*(100+Quality+mEV+mEves+mArev)/100";
+        private const string ES_EXPRESSION = "({0}+fES)*(100+Quality+mES+mAres+mEves)/100";
 
         public int BaseArmor { get; set; }
         public int BaseEvasion { get; set; }
@@ -24,10 +24,10 @@ namespace Tornado.Parser.Data {
             BaseArmor = values[1].ParseTo(0);
             BaseEvasion = values[2].ParseTo(0);
             BaseShield = values[3].ParseTo(0);
+            BaseTier = values[4].ParseTo(0);
         }
 
-        public ArmourBase() {
-        }
+        public ArmourBase() {}
 
         public ArmourBase(Row row, SharedStringTable sh) {
             var cells = row.Elements<Cell>().ToList();
@@ -35,6 +35,7 @@ namespace Tornado.Parser.Data {
             BaseArmor = cells[1].GetValue(sh).ParseTo(0);
             BaseEvasion = cells[2].GetValue(sh).ParseTo(0);
             BaseShield = cells[3].GetValue(sh).ParseTo(0);
+            BaseTier = cells[4].GetValue(sh).ParseTo(0);
         }
 
         public override NiceDictionary<string, TotalAffixRecord> GetTotalAffixes(Item item) {

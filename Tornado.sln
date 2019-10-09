@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.3
+VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tornado.Common", "Tornado.Common\Tornado.Common.csproj", "{6331B52E-393A-4A48-AE64-4CA857850267}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tornado.Overlay", "Tondato.Overlay\Tornado.Overlay.csproj", "{EC4B25DA-EBA8-4C2C-8D6E-F6709F271FD1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tornado.Parser", "Tornado.Parser\Tornado.Parser.csproj", "{7147A284-7D74-4B77-ACEB-27C5665DC3BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tornado.Data", "Tornado.Data\Tornado.Data.csproj", "{697C9437-FF07-4217-96AC-F337D8193D7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{7147A284-7D74-4B77-ACEB-27C5665DC3BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7147A284-7D74-4B77-ACEB-27C5665DC3BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7147A284-7D74-4B77-ACEB-27C5665DC3BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{697C9437-FF07-4217-96AC-F337D8193D7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{697C9437-FF07-4217-96AC-F337D8193D7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{697C9437-FF07-4217-96AC-F337D8193D7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{697C9437-FF07-4217-96AC-F337D8193D7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

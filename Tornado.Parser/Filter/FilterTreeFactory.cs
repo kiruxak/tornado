@@ -7,7 +7,7 @@ namespace Tornado.Parser.Filter {
     public static class FilterTreeFactory {
         public const string GROUP_SEPARATOR_PATTERN = "((\\w*)\\((?>\\((?<c>)|[^()]+|\\)(?<-c>))*(?(c)(?!))\\))";
         public const string AFFIX_SEPARATOR_PATTERN = "(\\((?>\\((?<c>)|[^()]+|\\)(?<-c>))*(?(c)(?!))\\))";
-        public const string AFFIX_PATTERN = "((\\w*)\\((?>\\((?<c>)|[^()]+|\\)(?<-c>))*(?(c)(?!))\\))|(([$\\d.]+\\w+))";
+        public const string AFFIX_PATTERN = "((\\w*)\\((?>\\((?<c>)|[^()]+|\\)(?<-c>))*(?(c)(?!))\\))|(([$,\\d.]+\\w+))";
 
         public static INode Build(string s) {
             List<string> matches = s.GetAllMatches(GROUP_SEPARATOR_PATTERN);
@@ -17,8 +17,12 @@ namespace Tornado.Parser.Filter {
             return new AndGroupNode(matches);
         }
 
-        public static FilterTree BuildTree(string s) {
-            return new FilterTree(s.ParseTo(ItemType.Unknown, "(\\w+)"), Build(s), s);
+        public static FilterTree BuildTree(string s, Dictionary<ItemType, string> commonFilters) {
+            var type = s.ParseTo(ItemType.Unknown, "(\\w+)");
+            if (commonFilters.ContainsKey(type)) {
+                s += commonFilters[type];
+            }
+            return new FilterTree(type, Build(s), s);
         }
 
         public static List<INode> BuildGroup(string s, string key) {

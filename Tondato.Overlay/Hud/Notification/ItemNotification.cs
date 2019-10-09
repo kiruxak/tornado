@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using PoeParser;
-using PoeParser.Filter;
 using SharpDX;
 using Tornado.Overlay.Framework;
 using Tornado.Overlay.Framework.Helpers;
 using Tornado.Parser;
 using Tornado.Parser.Common.Extensions;
+using Tornado.Parser.Entities;
 using Tornado.Parser.Filter;
 using Tornado.Parser.Parser;
 using Graphics = Tornado.Overlay.Hud.UI.Graphics;
@@ -27,8 +26,9 @@ namespace Tornado.Overlay.Hud.Notification {
 
         private static List<FilterResult> getItems() {
             return ItemParser.GetCachedItems()
-                             .Where(f => f.Item?.Price != null &&
-                                         ((f.Item.Price?.Currency.Value == 0 && f.Item.Price.IsExpensive()) || (f.Item.Prices.Select(p => p.Currency.ValueInChaos).Take(5).Average() > Config.MinPrice)))
+                             .Where(f => f.Item?.Price != null 
+                                         && ((f.Item.Price?.Currency.Value == 0 && f.Item.Price.IsExpensive()) 
+                                         || (f.Item.Prices[BaseItem.PriceName].Select(p => p.Currency.ValueInChaos).Take(5).Average() > Config.MinPrice)))
                              .ToList();
         }
 
@@ -43,6 +43,11 @@ namespace Tornado.Overlay.Hud.Notification {
             var dotbounds = new RectangleF(0, 0, 10, 10);
             Graphics.DrawImage("dot_green.png", dotbounds, "FF0EF029".ToBGRAColor());
 
+            if (dotbounds.Contains(Cursor.Position.X, Cursor.Position.Y)) {
+                var helperBounds = new RectangleF(0, 0, 1920, 1080);
+                Graphics.DrawImage("helper.png", helperBounds, "FFFFFFFF".ToBGRAColor());
+            }
+
             var items = Items;
             if (items == null || items.Count == 0) {
                 return;
@@ -54,9 +59,7 @@ namespace Tornado.Overlay.Hud.Notification {
 
             Size2 size = DrawBlock.Draw(x, y, Graphics, lineSize.IsMouseHover(x, y)
                                             ? lines
-                                            : new List<IDrawBlock> {
-                                                lines.First()
-                                            });
+                                            : new List<IDrawBlock> { lines.First() });
 
             var color = new Color(0.1f, 0.1f, 0.1f, 1.0f);
             Graphics.DrawBox(new RectangleF(x, y, size.Width, size.Height), color);
@@ -75,7 +78,7 @@ namespace Tornado.Overlay.Hud.Notification {
         }
 
         public Size2 Draw(int x, int y, Graphics g) {
-            return g.DrawText(Line, 15, new Vector2(x, y), Color.ToBGRAColor());
+            return g.DrawText(Line, FontSize, new Vector2(x, y), Color.ToBGRAColor());
         }
     }
 

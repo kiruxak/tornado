@@ -8,7 +8,7 @@ namespace Tornado.Parser.Common.Extensions {
     public static class ParseExtensions {
         public static T ParseTo<T>(this string val, T defaultValue, string regexPattern = null) {
             if (!string.IsNullOrEmpty(regexPattern)) {
-                Regex regex = new Regex(regexPattern);
+                Regex regex = new Regex(regexPattern, RegexOptions.Multiline);
                 Match match = regex.Match(val);
                 if (match.Success) {
                     val = match.Groups[1].Value;
@@ -66,6 +66,19 @@ namespace Tornado.Parser.Common.Extensions {
             return result;
         }
 
+        public static double ParseSumDouble(this string val, Regex pattern, double defaultValue = 0) {
+            Match match = pattern.Match(val);
+
+            double result = defaultValue;
+
+            while (match.Success) {
+                result += (double.Parse(match.Groups[1].Value) + double.Parse(match.Groups[2].Value)) / 2;
+                match = match.NextMatch();
+            }
+
+            return result;
+        }
+
         public static double ParseDualAverage(this string val, string regexPattern, double defaultValue = 0) {
             Regex regex = new Regex(regexPattern);
             Match match = regex.Match(val);
@@ -75,6 +88,21 @@ namespace Tornado.Parser.Common.Extensions {
             while (match.Success) {
                 result += (Parse(match.Groups[1].Value, defaultValue) + Parse(match.Groups[2].Value, defaultValue)) / 2;
                 match = match.NextMatch();
+            }
+
+            return result;
+        }
+
+        public static double[] ParseDual(this string val, string regexPattern, double defaultValue = 0) {
+            Regex regex = new Regex(regexPattern);
+            Match match = regex.Match(val);
+
+            double[] result = new double[2];
+
+            while (match.Success) {
+                result[0] = Parse(match.Groups[1].Value, defaultValue);
+                result[1] = Parse(match.Groups[2].Value, defaultValue);
+                match  =  match.NextMatch();
             }
 
             return result;

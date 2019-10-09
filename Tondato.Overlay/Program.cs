@@ -17,6 +17,9 @@ namespace Tornado.Overlay {
             var clients = Process.GetProcessesByName(Offsets.Regular.ExeName).Select(p => Tuple.Create(p, Offsets.Regular)).ToList();
             clients.AddRange(Process.GetProcessesByName(Offsets.Steam.ExeName).Select(p => Tuple.Create(p, Offsets.Steam)));
             clients.AddRange(Process.GetProcessesByName("PathOfExile_x64").Select(p => Tuple.Create(p, Offsets.Steam)));
+
+            //clients.AddRange(Process.GetProcessesByName(Offsets.Notepad.ExeName).Select(p => Tuple.Create(p, Offsets.Notepad)));
+
             int ixChosen = clients.Count > 1 ? chooseSingleProcess(clients) : 0;
             if (clients.Count > 0 && ixChosen >= 0) {
                 offs = clients[ixChosen].Item2;

@@ -12,6 +12,7 @@ namespace Tornado.Parser.Filter.Nodes {
             ILogicResultNode resultNode = new ResultNode();
             var resultNodes = Nodes.Select(n => n.GetValue(item)).ToList();
             var resultValueNodes = resultNodes.Where(r => !r.DisplayOnly).OrderByDescending(n => n.Value).Take(AtLeastCount).ToList();
+            var anyNodes = resultNodes.Where(r => !r.DisplayOnly).OrderByDescending(n => n.Value).Skip(AtLeastCount).OfType<IAffixResultNode>().Where(n => n.Logical == 0 || n.Logical >= 1).ToList();
 
             resultNode.DisplayOnly = !resultValueNodes.Any();
             if (resultNode.DisplayOnly) {
@@ -21,6 +22,7 @@ namespace Tornado.Parser.Filter.Nodes {
             } else {
                 resultNode.Nodes.AddRange(resultValueNodes);
                 resultNode.Value = resultValueNodes.Sum(n => n.Value) / AtLeastCount;
+                resultNode.Nodes.AddRange(anyNodes);
             }
             return resultNode;
         }

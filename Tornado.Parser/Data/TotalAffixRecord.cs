@@ -54,6 +54,7 @@ namespace Tornado.Parser.Data {
 
         private double getValue(Item item, Func<IAffixValue, string> setAffixValue) {
             string value = item.Affixes.Where(a => a.Value is AffixValue).Aggregate(MathExpression, (current, a) => current.Replace(a.Key, setAffixValue(a.Value).ToString()));
+            value = value.Replace("Quality", item.Quality <= 20 ? "20" : item.Quality.ToString());
             value = Regex.Replace(value, "([a-zA-z]+)", "0");
 
             object val = new Expression(value).Evaluate();

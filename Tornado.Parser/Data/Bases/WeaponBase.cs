@@ -12,7 +12,7 @@ using Item = Tornado.Parser.Entities.Item;
 
 namespace Tornado.Parser.Data {
     public class WeaponBase : Base, IRecord {
-        private const string PDPS_EXPRESSION = "({0}+fPhysOH+fPhysTH)*(120+mPhys)/100*{1}*((100+wepAttSpeed)/100)";
+        private const string PDPS_EXPRESSION = "({0}+fPhysOH+fPhysTH)*(100+Quality+mPhys)/100*{1}*((100+wepAttSpeed)/100)";
         private const string EDPS_EXPRESSION = "(fColdOH+fFireOH+fLightOH+fColdTH+fFireTH+fLightTH+fColdAtt+fFireAtt)*{0}*((100+wepAttSpeed)/100)";
         private const string DPS_EXPRESSION = "Edps+Pdps";
         private const string WEPCRIT_EXPRESSION = "{0}*(100+wepCritChance)/100";
@@ -31,6 +31,7 @@ namespace Tornado.Parser.Data {
             MaxDmg = values[3].ParseTo(0, "to (\\d+)");
             AttackSpeed = values[4].ParseTo(0.0);
             CritChance = values[5].ParseTo(0.0, "([\\d.]+)");
+            BaseTier = values[8].ParseTo(0);
         }
 
         public WeaponBase() {
@@ -45,13 +46,14 @@ namespace Tornado.Parser.Data {
             MaxDmg = cells[3].GetValue(sh).ParseTo(0, "to (\\d+)");
             AttackSpeed = cells[4].GetValue(sh).ParseTo(0.0);
             CritChance = cells[5].GetValue(sh).ParseTo(0.0, "([\\d.]+)");
+            BaseTier = cells[8].GetValue(sh).ParseTo(0);
         }
 
         public override NiceDictionary<string, TotalAffixRecord> GetTotalAffixes(Item item) {
             List<TotalAffixRecord> a = new List<TotalAffixRecord>();
 
             TotalAffixRecord pDps = new TotalAffixRecord() {
-                MathExpression = string.Format(PDPS_EXPRESSION, Math.Round((double)(MaxDmg + MinDmg) / 2, 0), AttackSpeed),
+                MathExpression = item.Source.Contains("No Physical Damage") ? "0" : string.Format(PDPS_EXPRESSION, Math.Round((double)(MaxDmg + MinDmg) / 2, 1), AttackSpeed),
                 Name = BuildInAffixNames.PDps,
                 RegexPattern = "",
                 Template = "{0} phys dps"

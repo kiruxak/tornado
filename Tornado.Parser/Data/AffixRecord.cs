@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Tornado.Common.Extensions;
 using Tornado.Parser.Common.Extensions;
@@ -101,81 +102,87 @@ namespace Tornado.Parser.Data {
 
         public AffixRecord(Row row, SharedStringTable sh) {
             var cells = row.Elements<Cell>().ToList();
-            Name = cells[0].GetValue(sh);
 
-            Description = cells[1].GetValue(sh);
-            RegexPattern = cells[2].GetValue(sh);
+            try
+            {
+                Name = cells[0].GetValue(sh);
 
-            StringValue = cells[4].GetValue(sh);
-            Type = cells[10].GetValue(sh).ParseTo(AffixType.Unknown, "(\\w+)");
-            DisplayName = cells[7].GetValue(sh);
+                Description  = cells[1].GetValue(sh);
+                RegexPattern = cells[2].GetValue(sh);
 
-            Tier = new AffixTier();
+                StringValue = cells[4].GetValue(sh);
+                Type        = cells[10].GetValue(sh).ParseTo(AffixType.Unknown, "(\\w+)");
+                DisplayName = cells[7].GetValue(sh);
 
-            Tier.Tier = cells[3].GetValue(sh).ParseTo(0, "(\\d+)");
-            Tier.MinValue = cells[5].GetValue(sh).ParseTo(0.0, "([\\d.]+)");
-            Tier.MaxValue = cells[6].GetValue(sh).ParseTo(0.0, "([\\d.]+)");
-            Tier.LevelRequired = cells[8].GetValue(sh).ParseTo(0, "(\\d+)");
-            Tier.Craft = cells[9].GetValue(sh).ContainsPattern("Yes");
+                Tier = new AffixTier();
 
-            if (cells[11].GetValue(sh).ContainsPattern("Yes")) {
-                Tier.ForTypes.Add(ItemType.Ring);
-            }
-            if (cells[12].GetValue(sh).ContainsPattern("Yes")) {
-                Tier.ForTypes.Add(ItemType.Amulet);
-            }
-            if (cells[13].GetValue(sh).ContainsPattern("Yes")) {
-                Tier.ForTypes.Add(ItemType.Belt);
-            }
-            if (cells[14].GetValue(sh).ContainsPattern("Yes")) {
-                Tier.ForTypes.Add(ItemType.Helmet);
-            }
-            if (cells[15].GetValue(sh).ContainsPattern("Yes")) {
-                Tier.ForTypes.Add(ItemType.Gloves);
-            }
-            if (cells[16].GetValue(sh).ContainsPattern("Yes")) {
-                Tier.ForTypes.Add(ItemType.Boots);
-            }
-            if (cells[17].GetValue(sh).ContainsPattern("Yes")) {
-                Tier.ForTypes.Add(ItemType.BodyArmour);
-            }
-            if (cells[18].GetValue(sh).ContainsPattern("Yes")) {
-                Tier.ForTypes.Add(ItemType.Shield);
-            }
-            if (cells[19].GetValue(sh).ContainsPattern("Yes")) {
-                Tier.ForTypes.Add(ItemType.Quiver);
-            }
-            if (cells[20].GetValue(sh).ContainsPattern("Yes")) {
-                Tier.ForTypes.Add(ItemType.Wand);
-            }
-            if (cells[21].GetValue(sh).ContainsPattern("Yes")) {
-                Tier.ForTypes.Add(ItemType.Dagger);
-            }
-            if (cells[22].GetValue(sh).ContainsPattern("Yes")) {
-                Tier.ForTypes.Add(ItemType.Claw);
-            }
-            if (cells[23].GetValue(sh).ContainsPattern("Yes")) {
-                Tier.ForTypes.Add(ItemType.Sceptre);
-            }
-            if (cells[24].GetValue(sh).ContainsPattern("Yes")) {
-                Tier.ForTypes.Add(ItemType.Staff);
-            }
-            if (cells[25].GetValue(sh).ContainsPattern("Yes")) {
-                Tier.ForTypes.Add(ItemType.Bow);
-            }
-            if (cells[26].GetValue(sh).ContainsPattern("Yes")) {
-                Tier.ForTypes.Add(ItemType.Sword);
-                Tier.ForTypes.Add(ItemType.Axe);
-            }
-            if (cells[27].GetValue(sh).ContainsPattern("Yes")) {
-                Tier.ForTypes.Add(ItemType.Sword2H);
-                Tier.ForTypes.Add(ItemType.Axe2H);
-            }
-            if (cells[28].GetValue(sh).ContainsPattern("Yes")) {
-                Tier.ForTypes.Add(ItemType.Mace);
-            }
-            if (cells[29].GetValue(sh).ContainsPattern("Yes")) {
-                Tier.ForTypes.Add(ItemType.Mace2H);
+                Tier.Tier          = cells[3].GetValue(sh).ParseTo(0, "(\\d+)");
+                Tier.MinValue      = cells[5].GetValue(sh).ParseTo(0.0, "([\\d.]+)");
+                Tier.MaxValue      = cells[6].GetValue(sh).ParseTo(0.0, "([\\d.]+)");
+                Tier.LevelRequired = cells[8].GetValue(sh).ParseTo(0, "(\\d+)");
+                Tier.Craft         = cells[9].GetValue(sh).ContainsPattern("Yes");
+
+                if (cells[11].GetValue(sh).ContainsPattern("Yes")) {
+                    Tier.ForTypes.Add(ItemType.Ring);
+                }
+                if (cells[12].GetValue(sh).ContainsPattern("Yes")) {
+                    Tier.ForTypes.Add(ItemType.Amulet);
+                }
+                if (cells[13].GetValue(sh).ContainsPattern("Yes")) {
+                    Tier.ForTypes.Add(ItemType.Belt);
+                }
+                if (cells[14].GetValue(sh).ContainsPattern("Yes")) {
+                    Tier.ForTypes.Add(ItemType.Helmet);
+                }
+                if (cells[15].GetValue(sh).ContainsPattern("Yes")) {
+                    Tier.ForTypes.Add(ItemType.Gloves);
+                }
+                if (cells[16].GetValue(sh).ContainsPattern("Yes")) {
+                    Tier.ForTypes.Add(ItemType.Boots);
+                }
+                if (cells[17].GetValue(sh).ContainsPattern("Yes")) {
+                    Tier.ForTypes.Add(ItemType.BodyArmour);
+                }
+                if (cells[18].GetValue(sh).ContainsPattern("Yes")) {
+                    Tier.ForTypes.Add(ItemType.Shield);
+                }
+                if (cells[19].GetValue(sh).ContainsPattern("Yes")) {
+                    Tier.ForTypes.Add(ItemType.Quiver);
+                }
+                if (cells[20].GetValue(sh).ContainsPattern("Yes")) {
+                    Tier.ForTypes.Add(ItemType.Wand);
+                }
+                if (cells[21].GetValue(sh).ContainsPattern("Yes")) {
+                    Tier.ForTypes.Add(ItemType.Dagger);
+                }
+                if (cells[22].GetValue(sh).ContainsPattern("Yes")) {
+                    Tier.ForTypes.Add(ItemType.Claw);
+                }
+                if (cells[23].GetValue(sh).ContainsPattern("Yes")) {
+                    Tier.ForTypes.Add(ItemType.Sceptre);
+                }
+                if (cells[24].GetValue(sh).ContainsPattern("Yes")) {
+                    Tier.ForTypes.Add(ItemType.Staff);
+                }
+                if (cells[25].GetValue(sh).ContainsPattern("Yes")) {
+                    Tier.ForTypes.Add(ItemType.Bow);
+                }
+                if (cells[26].GetValue(sh).ContainsPattern("Yes")) {
+                    Tier.ForTypes.Add(ItemType.Sword);
+                    Tier.ForTypes.Add(ItemType.Axe);
+                }
+                if (cells[27].GetValue(sh).ContainsPattern("Yes")) {
+                    Tier.ForTypes.Add(ItemType.Sword2H);
+                    Tier.ForTypes.Add(ItemType.Axe2H);
+                }
+                if (cells[28].GetValue(sh).ContainsPattern("Yes")) {
+                    Tier.ForTypes.Add(ItemType.Mace);
+                }
+                if (cells[29].GetValue(sh).ContainsPattern("Yes")) {
+                    Tier.ForTypes.Add(ItemType.Mace2H);
+                }
+            } catch (Exception e) {
+                throw e;
             }
         }
     }

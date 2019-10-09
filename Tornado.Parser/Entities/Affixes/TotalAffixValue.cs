@@ -10,7 +10,8 @@ namespace Tornado.Parser.Entities.Affixes {
         public string RegexPattern => TotalAffix.RegexPattern;
         public bool IsTotal => true;
         public string PoeTradeName => RegexPattern;
-        public double Value { get; }
+        public string Tooltip { get; }
+        public double Value { get; set; }
         public double MaxValue { get; }
         public double MinValue { get; }
         public AffixType Type => AffixType.Total;
@@ -31,10 +32,13 @@ namespace Tornado.Parser.Entities.Affixes {
         }
 
         public ColoredLine GetTooltipLine(string color, int size) {
-            var s = TotalAffix.Template.Split(new[] {
-                "{0}"
-            }, StringSplitOptions.None);
+            var s = TotalAffix.Template.Split(new[] { "{0}" }, StringSplitOptions.None);
             var prefix = "";
+            var hasValue = TotalAffix.Template.Contains("{0}");
+
+            if (!hasValue) {
+                return new ColoredLine(new List<ColoredText>().Add(TotalAffix.Template, color, size));
+            }
 
             if (s[1][0] != ' ') {
                 prefix += s[1][0];
@@ -42,9 +46,9 @@ namespace Tornado.Parser.Entities.Affixes {
             }
 
             return new ColoredLine(new List<ColoredText>()
-                                           .Add(s[0] + Value.ToString("0.#") + prefix, ToolTipColor.GeneralGroup, size + 1)
+                                           .Add(s[0] + Value.ToString("0.##") + prefix, ToolTipColor.GeneralGroup, size + 1)
                                            .Add(s[1], color, size)
-                                           .Add(Value >= MaxValue ? "" : $" [{MinValue}-{MaxValue}]", color, size - 4, heightOffset: 2)
+                                           .Add(Value >= MaxValue ? "" : $" [{MinValue:F1}-{MaxValue:F1}]", color, size - 4, heightOffset: 2)
                                            .Add($"{(craft == null ? "" : $" (+{craft})")}", ToolTipColor.Gem, size - 4, heightOffset: 2));
         }
     }

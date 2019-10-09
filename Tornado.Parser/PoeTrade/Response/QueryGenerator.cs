@@ -8,146 +8,28 @@ using Tornado.Common.Utility;
 namespace Tornado.Parser.PoeTrade.Response {
     public class QueryGenerator {
         private readonly NiceDictionary<string, string> generalAffixes = new NiceDictionary<string, string> {
-            {
-                "league", "Standard"
-            }, {
-                "type", ""
-            }, {
-                "base", ""
-            }, {
-                "name", ""
-            }, {
-                "dmg_min", ""
-            }, {
-                "dmg_max", ""
-            }, {
-                "aps_min", ""
-            }, {
-                "aps_max", ""
-            }, {
-                "crit_min", ""
-            }, {
-                "crit_max", ""
-            }, {
-                "dps_min", ""
-            }, {
-                "dps_max", ""
-            }, {
-                "edps_min", ""
-            }, {
-                "edps_max", ""
-            }, {
-                "pdps_min", ""
-            }, {
-                "pdps_max", ""
-            }, {
-                "armour_min", ""
-            }, {
-                "armour_max", ""
-            }, {
-                "evasion_min", ""
-            }, {
-                "evasion_max", ""
-            }, {
-                "shield_min", ""
-            }, {
-                "shield_max", ""
-            }, {
-                "block_min", ""
-            }, {
-                "block_max", ""
-            }, {
-                "sockets_min", ""
-            }, {
-                "sockets_max", ""
-            }, {
-                "link_min", ""
-            }, {
-                "link_max", ""
-            }, {
-                "sockets_r", ""
-            }, {
-                "sockets_g", ""
-            }, {
-                "sockets_b", ""
-            }, {
-                "sockets_w", ""
-            }, {
-                "linked_r", ""
-            }, {
-                "linked_g", ""
-            }, {
-                "linked_b", ""
-            }, {
-                "linked_w", ""
-            }, {
-                "rlevel_min", ""
-            }, {
-                "rlevel_max", ""
-            }, {
-                "rstr_min", ""
-            }, {
-                "rstr_max", ""
-            }, {
-                "rdex_min", ""
-            }, {
-                "rdex_max", ""
-            }, {
-                "rint_min", ""
-            }, {
-                "rint_max", ""
-            }, {
-                "q_min", ""
-            }, {
-                "q_max", ""
-            }, {
-                "level_min", ""
-            }, {
-                "level_max", ""
-            }, {
-                "mapq_min", ""
-            }, {
-                "mapq_max", ""
-            }, {
-                "rarity", ""
-            }, {
-                "seller", ""
-            }, {
-                "thread", ""
-            }, {
-                "time", ""
-            }, {
-                "identified", ""
-            }, {
-                "corrupted", ""
-            }, {
-                "online", "x"
-            }, {
-                "buyout", "x"
-            }, {
-                "altart", ""
-            }, {
-                "capquality", "x"
-            }, {
-                "buyout_min", ""
-            }, {
-                "buyout_max", ""
-            }, {
-                "buyout_currency", ""
-            }, {
-                "crafted", ""
-            }, {
-                "ilvl_min", ""
-            }, {
-                "ilvl_max", ""
-            }, {
-                "enchanted", ""
-            }
+            { "league", "Standard" }, { "type", "" }, { "base", "" }, { "name", "" }, { "dmg_min", "" },
+            { "dmg_max", "" }, { "aps_min", "" }, { "aps_max", "" }, { "crit_min", "" }, { "crit_max", "" },
+            { "dps_min", "" }, { "dps_max", "" },{ "edps_min", "" },{ "edps_max", "" },{ "pdps_min", "" },{ "pdps_max", "" },
+            { "armour_min", "" },{ "armour_max", "" },{ "evasion_min", "" },{ "evasion_max", "" },{ "shield_min", "" },
+            { "shield_max", "" },{ "block_min", "" },{ "block_max", "" },{ "sockets_min", "" },{ "sockets_max", "" },
+            { "link_min", "" },{ "link_max", "" },{ "sockets_r", "" },{ "sockets_g", "" },{ "sockets_b", "" },
+            { "sockets_w", "" },{ "linked_r", "" },{ "linked_g", "" },{ "linked_b", "" },{ "linked_w", "" },
+            { "rlevel_min", "" },{ "rlevel_max", "" },{ "rstr_min", "" },{ "rstr_max", "" },{ "rdex_min", "" },
+            { "rdex_max", "" },{ "rint_min", "" },{ "rint_max", "" },{ "q_min", "" },{ "q_max", "" },
+            { "level_min", "" },{ "level_max", "" },{ "mapq_min", "" },{ "mapq_max", "" }, { "rarity", "" },
+            { "seller", "" }, { "thread", "" }, { "time", "" }, { "identified", "" }, { "corrupted", "" },
+            { "online", "x" }, { "buyout", "x" }, { "altart", "" }, { "capquality", "x" }, { "buyout_min", "" }, { "buyout_max", "" },
+            { "buyout_currency", "" }, { "crafted", "" }, { "ilvl_min", "" }, { "ilvl_max", "" },
+            { "enchanted", "" }, { "shaper", "" }, { "elder", "" }, { "mirrored", "" }
         };
-
         private readonly List<string> affixes = new List<string>();
+        private double tradeCoef = Config.PoeTradeMod;
 
         public string GenerateQuery(List<ITradeAffix> itemAffixes, NiceDictionary<string, string> generalParams) {
+            if (generalParams.ContainsKey("rarity") && generalParams["rarity"] == "unique") {
+                tradeCoef = 0.99;
+            }
             if (generalParams.Any()) {
                 foreach (var pair in generalParams) {
                     if (generalAffixes.ContainsKey(pair.Key)) {
@@ -180,7 +62,7 @@ namespace Tornado.Parser.PoeTrade.Response {
                 string prefix = "mod_name=";
 
                 string expression = a.IsTotal ? a.PoeTradeName : a.PoeTradeName.Replace("(\\d+)", "#").Replace("\\", "");
-                affixes.Add(prefix + expression + "&mod_min=" + string.Format(new CultureInfo("en-US"), "{0:F2}", a.Value * 0.95) + "&mod_max=");
+                affixes.Add(prefix + expression + "&mod_min=" + string.Format(new CultureInfo("en-US"), "{0:F2}", a.Value * tradeCoef) + "&mod_max=");
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using PoeParser.Common;
 using Tornado.Common.Utility;
 using Tornado.Parser.Data;
@@ -7,13 +8,27 @@ using Tornado.Parser.Filter;
 
 namespace Tornado.Parser.Entities {
     public class Core {
-        public ItemType Type;
-        public Base Base;
-
-        public Core(ItemType type, Base @base = null) {
-            Type = type;
-            Base = @base;
+        public Core(ItemType type, Mark mark, Base @base) {
+            Type     = type;
+            Mark     = mark;
+            Base     = @base;
+            BaseName = @base.Name;
         }
+
+        public Core(ItemType type, Mark mark, string @base) {
+            Type     = type;
+            Mark     = mark;
+            BaseName = @base;
+        }
+
+        public int Links { get; set; }
+        public int ItemLevel { get; set; }
+        public ItemType Type { get; set; }
+        public Mark Mark { get; set; }
+        public Base Base { get; set; }
+        public string BaseName { get; set; }
+
+        public bool IsGoodBase => (ItemTypes.RareBases.Contains(BaseName) || Links == 6 || ItemLevel >= 83 || Mark == Mark.Elder || Mark == Mark.Shaper);
 
         public NiceDictionary<string, string> GetPoeTradeAffixes(FilterResult filter) {
             NiceDictionary<string, string> affixes = Base == null ? new NiceDictionary<string, string>() : Base.GetPoeTradeAffixes(filter);
@@ -27,9 +42,7 @@ namespace Tornado.Parser.Entities {
             return affixes;
         }
 
-        public List<IAffixValue> GetAffixes(Item item) {
-            return Base?.GetAffixes(item) ?? new List<IAffixValue>();
-        }
+        public List<IAffixValue> GetAffixes(Item item) { return Base?.GetAffixes(item) ?? new List<IAffixValue>(); }
 
         public NiceDictionary<string, TotalAffixRecord> GetTotalAffixes(Item item) {
             return Base?.GetTotalAffixes(item) ?? new NiceDictionary<string, TotalAffixRecord>();

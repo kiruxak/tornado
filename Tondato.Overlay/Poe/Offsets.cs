@@ -11,6 +11,13 @@ namespace Tornado.Overlay.Poe {
             ExeName = "PathOfExileSteam"
         };
 
+        public static Offsets Notepad = new Offsets
+        {
+            IgsOffset = 24,
+            IgsDelta  = 0,
+            ExeName   = "Notepad"
+        };
+
         public string ExeName { get; private set; }
         public int IgsDelta { get; private set; }
         public int IgsOffset { get; private set; }

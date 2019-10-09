@@ -13,9 +13,7 @@ namespace Tornado.Overlay.Model {
         }
 
         public Pattern(string pattern, string mask) {
-            var arr = pattern.Split(new[] {
-                "\\x"
-            }, StringSplitOptions.RemoveEmptyEntries);
+            var arr = pattern.Split(new[] {"\\x"}, StringSplitOptions.RemoveEmptyEntries);
             Bytes = arr.Select(y => byte.Parse(y, NumberStyles.HexNumber)).ToArray();
             Mask = mask;
         }

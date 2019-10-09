@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tornado.Parser</RootNamespace>
     <AssemblyName>Tornado.Parser</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -43,6 +43,9 @@
     <Reference Include="NCalc, Version=1.3.8.0, Culture=neutral, PublicKeyToken=973cde3f1cafed03, processorArchitecture=MSIL">
       <HintPath>..\packages\ncalc.1.3.8\lib\NCalc.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Caching" />
@@ -59,19 +62,22 @@
   <ItemGroup>
     <Compile Include="Common\Extensions\PoeItemDataExtensions.cs" />
     <Compile Include="Data\AffixRecord.cs" />
+    <Compile Include="Data\Bases\DivCard.cs" />
+    <Compile Include="Data\Bases\SynthesisImplicit.cs" />
     <Compile Include="Entities\Affixes\BuildInAffixNames.cs" />
     <Compile Include="Entities\ItemCore.cs" />
-    <Compile Include="Entities\Items\ArmourItem.cs" />
+    <Compile Include="Entities\Items\BaseItem\CurrencyItem.cs" />
+    <Compile Include="Entities\Items\Item\ArmourItem.cs" />
     <Compile Include="Entities\Items\BaseItem.cs" />
-    <Compile Include="Entities\Items\DivinationCard.cs" />
-    <Compile Include="Entities\Items\GemItem.cs" />
+    <Compile Include="Entities\Items\BaseItem\DivinationCard.cs" />
+    <Compile Include="Entities\Items\BaseItem\GemItem.cs" />
     <Compile Include="Entities\Items\IItem.cs" />
-    <Compile Include="Entities\Items\JewelItem.cs" />
-    <Compile Include="Entities\Items\JewelryItem.cs" />
-    <Compile Include="Entities\Items\MapItem.cs" />
-    <Compile Include="Entities\Items\NormalItem.cs" />
-    <Compile Include="Entities\Items\UniqueItem.cs" />
-    <Compile Include="Entities\Items\WeaponItem.cs" />
+    <Compile Include="Entities\Items\Item\JewelItem.cs" />
+    <Compile Include="Entities\Items\BaseItem\JewelryItem.cs" />
+    <Compile Include="Entities\Items\BaseItem\MapItem.cs" />
+    <Compile Include="Entities\Items\BaseItem\NormalItem.cs" />
+    <Compile Include="Entities\Items\Item\UniqueItem.cs" />
+    <Compile Include="Entities\Items\Item\WeaponItem.cs" />
     <Compile Include="Entities\ItemTypes.cs" />
     <Compile Include="Filter\Tooltip\ColoredLine.cs" />
     <Compile Include="Filter\Tooltip\ColoredText.cs" />
@@ -98,6 +104,9 @@
     <Compile Include="Entities\Items\Item.cs" />
     <Compile Include="Entities\Affixes\TotalAffixValue.cs" />
     <Compile Include="PoeTrade\Data\Currency.cs" />
+    <Compile Include="PoeTrade\Data\Request\CurrencyData.cs" />
+    <Compile Include="PoeTrade\Data\Request\CurrencyDetail.cs" />
+    <Compile Include="PoeTrade\Data\Request\CurrencyInfo.cs" />
     <Compile Include="PoeTrade\Data\PoeItemData.cs" />
     <Compile Include="PoeTrade\Extensions\ParseExtensions.cs" />
     <Compile Include="PoeTrade\PoeItemExtensions.cs" />
@@ -135,6 +144,10 @@
     <ProjectReference Include="..\Tornado.Common\Tornado.Common.csproj">
       <Project>{6331b52e-393a-4a48-ae64-4ca857850267}</Project>
       <Name>Tornado.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tornado.Data\Tornado.Data.csproj">
+      <Project>{697c9437-ff07-4217-96ac-f337d8193d7e}</Project>
+      <Name>Tornado.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

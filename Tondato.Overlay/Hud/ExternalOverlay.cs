@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using PoeParser;
 using SharpDX.Windows;
 using Tornado.Overlay.Framework;
 using Tornado.Overlay.Hud.Interfaces;

@@ -1,8 +1,38 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Tornado.Common.Utility;
 using Tornado.Parser.Data;
 
 namespace Tornado.Parser.Entities {
     public static class ItemTypes {
+        public static string[] RareBases = new string[] {
+            "Two-Toned Boots", "Cerulean Ring", "Vermillion Ring", "Convoking Wand", "Opal Ring", "Steel Ring", "Marble Amulet", "Blue Pearl Amulet",
+            "Crystal Belt", "Stygian Vise", "Vanguard Belt", "Rustic Sash", "Spiked Gloves", "Fingerless Silk Gloves"
+        };
+        public static NiceDictionary<string, string> UniqueMaps = new NiceDictionary<string, string>() {
+            { "Overgrown Shrine Map","Acton's Nightmare" },
+            { "Underground River Map","Caer Blaidd, Wolfpack's Den" },
+            { "Necropolis Map","Death and Taxes" },
+            { "Maze Map","Doryani's Machinarium" },
+            { "Promenade Map","Hall of Grandmasters" },
+            { "Cemetery Map","Hallowed Ground" },
+            { "Atoll Map","Maelström of Chaos" },
+            { "Shore Map","Mao Kun" },
+            { "Underground Sea Map","Oba's Cursed Trove" },
+            { "Bone Crypt Map","Olmec's Sanctum" },
+            { "Dunes Map","Pillars of Arun" },
+            { "Temple Map","Poorjoy's Asylum" },
+            { "Harbinger Map","The Beachhead" },
+            { "Cursed Crypt Map","The Coward's Trial" },
+            { "Chateau Map","The Perandus Manor" },
+            { "Museum Map","The Putrid Cloister" },
+            { "Moon Temple Map","The Twilight Temple" },
+            { "Courtyard Map","The Vinktar Square" },
+            { "Tropical Island Map","Untainted Paradise" },
+            { "Vaal Pyramid Map","Vaults of Atziri" },
+            { "Strand Map","Whakawairua Tuahu" }
+        };
+
         public static bool IsWeapon(this ItemType type) {
             return type == ItemType.Bow ||
                    type == ItemType.Claw ||
@@ -59,114 +89,133 @@ namespace Tornado.Parser.Entities {
                    itemType == ItemType.Staff;
         }
 
-        private static Core GetItemType(string itemBase) {
+        private static Core GetItemType(string itemBase, Mark mark) {
             if (PoeData.Weapons.ContainsKey(itemBase)) {
                 WeaponBase w = PoeData.Weapons[itemBase];
-                return new Core(w.Type, w);
+                return new Core(w.Type, mark, w);
             }
 
             if (Belts.Contains(itemBase))
-                return new Core(ItemType.Belt);
+                return new Core(ItemType.Belt, mark, Belts.First(x => x == itemBase));
             if (Amulets.Contains(itemBase))
-                return new Core(ItemType.Amulet);
+                return new Core(ItemType.Amulet, mark, Amulets.First(x => x == itemBase));
             if (Rings.Contains(itemBase))
-                return new Core(ItemType.Ring);
+                return new Core(ItemType.Ring, mark, Rings.First(x => x == itemBase));
             if (PoeData.Boots.ContainsKey(itemBase))
-                return new Core(ItemType.Boots, PoeData.Boots[itemBase]);
+                return new Core(ItemType.Boots, mark, PoeData.Boots[itemBase]);
             if (PoeData.Gloves.ContainsKey(itemBase))
-                return new Core(ItemType.Gloves, PoeData.Gloves[itemBase]);
+                return new Core(ItemType.Gloves, mark, PoeData.Gloves[itemBase]);
             if (PoeData.Armors.ContainsKey(itemBase))
-                return new Core(ItemType.BodyArmour, PoeData.Armors[itemBase]);
+                return new Core(ItemType.BodyArmour, mark, PoeData.Armors[itemBase]);
             if (PoeData.Helmets.ContainsKey(itemBase))
-                return new Core(ItemType.Helmet, PoeData.Helmets[itemBase]);
+                return new Core(ItemType.Helmet, mark, PoeData.Helmets[itemBase]);
             if (PoeData.Shields.ContainsKey(itemBase))
-                return new Core(ItemType.Shield, PoeData.Shields[itemBase]);
+                return new Core(ItemType.Shield, mark, PoeData.Shields[itemBase]);
             if (Jewels.Contains(itemBase))
-                return new Core(ItemType.Jewel);
+                return new Core(ItemType.Jewel, mark, Jewels.First(x => x == itemBase));
+            if (AbyssalJewels.Contains(itemBase))
+                return new Core(ItemType.AbyssalJewel, mark, AbyssalJewels.First(x => x == itemBase));
             if (itemBase == "Gem")
-                return new Core(ItemType.Gem);
+                return new Core(ItemType.Gem, mark, "Gem");
             if (Quivers.Contains(itemBase))
-                return new Core(ItemType.Quiver);
+                return new Core(ItemType.Quiver, mark, Quivers.First(x => x == itemBase));
             if (itemBase.IndexOf("Map") > 0) {
-                return new Core(ItemType.Map);
+                return new Core(ItemType.Map, mark, "Map");
             }
             if (itemBase.IndexOf("Flask") > 0)
-                return new Core(ItemType.Flask);
+                return new Core(ItemType.Flask, mark, "Flask");
 
-            return new Core(ItemType.Unknown);
+            return new Core(ItemType.Unknown, mark, "Unknown");
         }
 
-        private static Core GetMagicItemBase(string magicItemBase) {
+        private static Core GetMagicItemBase(string magicItemBase, Mark mark) {
             foreach (KeyValuePair<string, WeaponBase> pair in PoeData.Weapons) {
                 if (magicItemBase.Contains(pair.Key)) {
-                    return new Core(pair.Value.Type, pair.Value);
+                    return new Core(pair.Value.Type, mark, pair.Value);
                 }
             }
             foreach (var body in PoeData.Armors.Values) {
                 if (magicItemBase.Contains(body.Name)) {
-                    return new Core(ItemType.BodyArmour, PoeData.Armors[body.Name]);
+                    return new Core(ItemType.BodyArmour, mark, PoeData.Armors[body.Name]);
                 }
             }
             foreach (var boots in PoeData.Boots.Values) {
                 if (magicItemBase.Contains(boots.Name)) {
-                    return new Core(ItemType.Boots, PoeData.Boots[boots.Name]);
+                    return new Core(ItemType.Boots, mark, PoeData.Boots[boots.Name]);
                 }
             }
             foreach (var gloves in PoeData.Gloves.Values) {
                 if (magicItemBase.Contains(gloves.Name)) {
-                    return new Core(ItemType.Gloves, PoeData.Gloves[gloves.Name]);
+                    return new Core(ItemType.Gloves, mark, PoeData.Gloves[gloves.Name]);
                 }
             }
             foreach (var helm in PoeData.Helmets.Values) {
                 if (magicItemBase.Contains(helm.Name)) {
-                    return new Core(ItemType.Helmet, PoeData.Helmets[helm.Name]);
+                    return new Core(ItemType.Helmet, mark, PoeData.Helmets[helm.Name]);
                 }
             }
             foreach (var amulet in Amulets) {
                 if (magicItemBase.Contains(amulet)) {
-                    return new Core(ItemType.Amulet);
+                    return new Core(ItemType.Amulet, mark, amulet);
                 }
             }
             foreach (var ring in Rings) {
                 if (magicItemBase.Contains(ring)) {
-                    return new Core(ItemType.Ring);
+                    return new Core(ItemType.Ring, mark, ring);
+                }
+            }
+            foreach (var quiver in Quivers) {
+                if (magicItemBase.Contains(quiver)) {
+                    return new Core(ItemType.Quiver, mark, quiver);
                 }
             }
             foreach (var belt in Belts) {
                 if (magicItemBase.Contains(belt)) {
-                    return new Core(ItemType.Belt);
+                    return new Core(ItemType.Belt, mark, belt);
                 }
             }
             foreach (var shield in PoeData.Shields.Values) {
                 if (magicItemBase.Contains(shield.Name)) {
-                    return new Core(ItemType.Shield, PoeData.Shields[shield.Name]);
+                    return new Core(ItemType.Shield, mark, PoeData.Shields[shield.Name]);
                 }
             }
             foreach (var jewel in Jewels) {
                 if (magicItemBase.Contains(jewel)) {
-                    return new Core(ItemType.Jewel);
+                    return new Core(ItemType.Jewel, mark, jewel);
+                }
+            }
+            foreach (var jewel in AbyssalJewels) {
+                if (magicItemBase.Contains(jewel)) {
+                    return new Core(ItemType.AbyssalJewel, mark, jewel);
                 }
             }
             if (magicItemBase.IndexOf("Flask") > 0) {
-                return new Core(ItemType.Flask);
+                return new Core(ItemType.Flask, mark, "Flask");
             }
-            return new Core(ItemType.Unknown);
+            return new Core(ItemType.Unknown, mark, "Unknown");
         }
 
         public static Core GetItemBase(string[] itemParams) {
+            Mark mark = Mark.Empty;
+            if (itemParams.Any(x => x.Contains("Elder Item"))) mark = Mark.Elder;
+            if (itemParams.Any(x => x.Contains("Shaper Item"))) mark = Mark.Shaper;
+            if (itemParams.Any(x => x.Contains("Synthesised Item"))) mark = Mark.Synthesised;
+            if (itemParams.Any(x => x.Contains("Fractured Item"))) mark = Mark.Fractured;
+            
             if (itemParams[0].Contains("Rare") || itemParams[0].Contains("Unique"))
-                return GetItemType(itemParams[2]);
+                return GetItemType(itemParams[2].Replace("<<set:MS>><<set:M>><<set:S>>", "").Replace("Synthesised ", ""), mark);
             if (itemParams[0].Contains("Magic") || itemParams[0].Contains("Normal")) {
-                return GetMagicItemBase(itemParams[1]);
+                return GetMagicItemBase(itemParams[1].Replace("<<set:MS>><<set:M>><<set:S>>", "").Replace("Synthesised ", ""), mark);
             }
             if (itemParams[0].Contains("Gem")) {
-                return new Core(ItemType.Gem);
+                return new Core(ItemType.Gem, mark, "Gem");
             }
-            return new Core(ItemType.Unknown);
+            return new Core(ItemType.Unknown, Mark.Empty, "Unknown");
         }
 
         #region All item bases categorized
         public static List<string> Maps = new List<string>() {
+            "Pit of the Chimera",
             "Arcade",
             "Crystal Ore",
             "Desert",
@@ -176,6 +225,7 @@ namespace Tornado.Parser.Entities {
             "Ghetto",
             "Oasis", //t2
             "Arid Lake",
+            "Flooded Mine",
             "Cavern",
             "Channel",
             "Grotto",
@@ -205,7 +255,7 @@ namespace Tornado.Parser.Entities {
             "Thicket",
             "Vaal City",
             "Wharf", //t6
-            "Archnid Tomb",
+            "Arachnid Tomb",
             "Armoury",
             "Ashen Wood",
             "Castle Ruins",
@@ -213,6 +263,7 @@ namespace Tornado.Parser.Entities {
             "Cells",
             "Mud Geyser", //t7
             "Arachnid Nest",
+            "Primordial Pool",
             "Arena",
             "Atoll",
             "Barrows",
@@ -230,7 +281,9 @@ namespace Tornado.Parser.Entities {
             "Reef",
             "Temple", //t9
             "Arsenal",
+            "Ancient City",
             "Colonnade",
+            "Leyline",
             "Courtyard",
             "Malformation",
             "Quay",
@@ -257,6 +310,7 @@ namespace Tornado.Parser.Entities {
             "Lair",
             "Plaza",
             "Scriptorium",
+            "Defiled Cathedral",
             "Sulphur Wastes",
             "Waterways", //t13
             "Maze",
@@ -266,16 +320,26 @@ namespace Tornado.Parser.Entities {
             "Springs",
             "Volcano", //t14
             "Abyss",
+            "Carcass",
             "Colosseum",
+            "Sunken City",
+            "Courthouse",
             "Core",
             "Dark Forest",
             "Overgrown Ruin", //t15
             "Forge of the Phoenix",
             "Lair of the Hydra",
             "Maze of the Minotaur",
-            "Pit of the Chimera",
             "Vaal Temple", //t16
-            "The Shaper's Realm" //t17 
+            "The Shaper's Realm", //t17 
+            //3.5 new map
+            "Fungal Hollow",
+            "Acid Caverns",
+            "Crater",
+            "Glacier",
+            "Primordial Blocks",
+            //3.6
+            "Caldera",
         };
 
         public static List<string> VaalFrarments = new List<string>() {
@@ -287,6 +351,32 @@ namespace Tornado.Parser.Entities {
             "Mortal Rage",
             "Mortal Hope",
             "Mortal Ignorance"
+        };
+
+        public static List<string> GuardFrarments = new List<string>() {
+            "Fragment of the Minotaur",
+            "Fragment of the Chimera",
+            "Fragment of the Hydra",
+            "Fragment of the Phoenix"
+        };
+
+        public static List<string> ProphecyKeys = new List<string>() {
+            "Eber's Key",
+            "Inya's Key",
+            "Yriel's Key",
+            "Volkuur's Key"
+        };
+
+        public static List<string> IncursionVials = new List<string>() {
+            "Vial of Awakening",
+            "Vial of Consequence",
+            "Vial of Dominance",
+            "Vial of Fate",
+            "Vial of Summoning",
+            "Vial of the Ritual",
+            "Vial of Transcendence",
+            "Vial of the Ghost",
+            "Vial of Sacrifice",
         };
 
         public static List<string> Quivers = new List<string>() {
@@ -311,8 +401,12 @@ namespace Tornado.Parser.Entities {
             "Turquoise Amulet",
             "Agate Amulet",
             "Citrine Amulet",
-            "Onyx Amulet"
+            "Onyx Amulet",
+            "Marble Amulet",
+            "Blue Pearl Amulet",
+            "Prismatic Jewel"
         };
+
         public static List<string> Rings = new List<string>() {
             "Iron Ring",
             "Coral Ring",
@@ -333,8 +427,11 @@ namespace Tornado.Parser.Entities {
             "Unset Ring",
             "Breach Ring",
             "Steel Ring",
-            "Opal Ring"
+            "Opal Ring",
+            "Cerulean Ring",
+            "Vermillion Ring"
         };
+
         public static List<string> Belts = new List<string>() {
             "Chain Belt",
             "Rustic Sash",
@@ -344,13 +441,17 @@ namespace Tornado.Parser.Entities {
             "Cloth Belt",
             "Studded Belt",
             "Crystal Belt",
-            "Stygian Vise"
+            "Stygian Vise",
+            "Vanguard Belt"
         };
 
         private static readonly List<string> Jewels = new List<string>() {
             "Cobalt Jewel",
             "Crimson Jewel",
             "Viridian Jewel",
+            };
+
+        private static readonly List<string> AbyssalJewels = new List<string>() {
             "Ghastly Eye Jewel",
             "Murderous Eye Jewel",
             "Searching Eye Jewel",
